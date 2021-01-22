@@ -1,3 +1,9 @@
-.body {
+body {
     background-color: white;
+    max-width: 100%;
+}
+
+#heading {
+    text-align: center;
+    color: white;
 }

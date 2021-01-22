@@ -1,0 +1,15 @@
+@media screen and (max-width: 767px) {
+
+    body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    [class*="col-"] {
+        width: 100%;
+    }
+
+    #filter-button-div {
+        padding-top: 5%;
+    }
+}
