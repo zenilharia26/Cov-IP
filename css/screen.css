@@ -12,4 +12,8 @@
     #filter-button-div {
         padding-top: 5%;
     }
+
+    #date-container {
+        text-align: left;
+    }
 }

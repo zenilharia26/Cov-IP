@@ -7,3 +7,12 @@ body {
     text-align: center;
     color: white;
 }
+
+#news-container {
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+
+#date-container {
+    text-align: right;
+}
