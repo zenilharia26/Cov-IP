@@ -16,3 +16,8 @@ body {
 #date-container {
     text-align: right;
 }
+
+.list-group > li.active {
+    border-color: black;
+    background-color: #6c757d;
+}
