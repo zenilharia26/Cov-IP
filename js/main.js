@@ -3,8 +3,8 @@ const countryToCode = {
 }
 
 $( document ).ready(function() {
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
-    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=corona`;
+    const proxy = 'http://localhost:8080/';
+    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=corona&language=en`;
     const apiKey = '148162a1b18c4fb092bbf0fe2a2d2885';
     let countryDropdown = document.getElementById('country');
 
@@ -16,7 +16,6 @@ $( document ).ready(function() {
 
     $("button").click(function() {
         const countryId = countryToCode[document.getElementById('country').value];
-        console.log(countryId);
         const url = apiEndpoint + '&country=' + countryId + '&apiKey=' + apiKey;
         $.ajax({
             url: url,
@@ -40,5 +39,13 @@ function loadNews(news) {
         listItem.appendChild(heading);
         listItem.classList.add('list-group-item');
         newsList.appendChild(listItem);
+
+        listItem.addEventListener("click", () => {
+            document.getElementById("news-heading").innerText = article['title'];
+            document.getElementById("news-date").innerText = article['publishedAt'];
+            document.getElementById("news-description").innerText = article['description'];
+        })
     }
+
+    // console.log(news['articles'].length);
 }
