@@ -1,6 +1,8 @@
 const countryToCode = {
     'Global': '', 'Argentina': 'ar', 'Australia': 'au', 'Austria': 'at', 'Belgium': 'be', 'Brazil': 'br', 'Bulgaria': 'bg', 'Canada': 'ca', 'China': 'cn', 'Colombia': 'co', 'Cuba': 'cu', 'Czech Republic': 'cz', 'Egypt': 'eg', 'France': 'fr', 'Germany': 'de', 'Greece': 'gr', 'Hong Kong': 'hk', 'Hungary': 'hu', 'India': 'in', 'Indonesia': 'id', 'Ireland': 'ie', 'Israel': 'il', 'Italy': 'it', 'Japan': 'jp', 'Latvia': 'lv', 'Lithuania': 'lt', 'Malaysia': 'my', 'Mexico': 'mx', 'Morocco': 'ma', 'Netherlands': 'nl', 'New Zealand': 'nz', 'Nigeria': 'ng', 'Norway': 'no', 'Philippines': 'ph', 'Poland': 'pl', 'Portugal': 'pt', 'Romania': 'ro', 'Russia': 'ru', 'Saudi Arabia': 'sa', 'Serbia': 'rs', 'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'South Africa': 'za', 'South Korea': 'kr', 'Sweden': 'se', 'Switzerland': 'ch', 'Taiwan': 'tw', 'Thailand': 'th', 'Turkey': 'tr', 'UAE': 'ae', 'Ukraine': 'ua', 'United Kingdom': 'gb', 'United States': 'us', 'Venuzuela': 've'
 }
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 $( document ).ready(function() {
     const proxy = 'http://localhost:8080/';
@@ -29,7 +31,6 @@ $( document ).ready(function() {
 });
 
 function loadNews(news) {
-    console.log(news['articles']);
     newsList = document.getElementsByTagName("ul")[0];
     newsList.innerHTML = "";
 
@@ -43,13 +44,44 @@ function loadNews(news) {
 
         listItem.addEventListener("click", () => {
             document.getElementById("news-heading").innerText = article['title'];
-            document.getElementById("news-date").innerText = article['publishedAt'];
+            document.getElementById("news-date").innerText = getDate(article['publishedAt']);
             document.getElementById("news-description").innerText = article['description'];
             document.getElementById("news-url").innerHTML = "Read More";
             document.getElementById("news-url").href = article['url'];
             document.getElementById("news-url").target = "_blank";
         });
     }
+    
+    $('li').click(function() {
+        $('li').removeClass('active');
+        $(this).addClass('active');
+    });
+}
 
-    // console.log(news['articles'].length);
+function getDate(date) {
+    const newDate = new Date(date);
+    const weekday = weekdays[newDate.getDay()];
+    const monthDay = parseInt(newDate.getDate());
+    const month = months[newDate.getMonth()];
+    const year = newDate.getFullYear();
+
+    console.log(monthDay);
+
+    let dateString = `${weekday}, ${monthDay}`;
+    switch(monthDay%10) {
+        case 1:
+            dateString += 'st ';
+            break;
+        case 2:
+            dateString += 'nd ';
+            break;
+        case 3:
+            dateString += 'rd ';
+            break;
+        default:
+            dateString += 'th ';
+            break;
+    }
+    dateString += `${month}, ${year}`;
+    return dateString;
 }
