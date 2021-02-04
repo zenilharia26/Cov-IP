@@ -3,7 +3,7 @@ const countryToCode = {
 }
 
 $( document ).ready(function() {
-    const proxy = 'http://cors-anywhere.herokuapp.com/';
+    const proxy = 'http://localhost:8080/';
     const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&language=en&source=the-hindu`;
     //const apiKey = '7fcff72941a749f596ca167c566fd14e'; //Arghyadeep
     const apiKey = '148162a1b18c4fb092bbf0fe2a2d2885'; //Zenil
@@ -48,7 +48,7 @@ function loadNews(news) {
             document.getElementById("news-url").innerHTML = "Read More";
             document.getElementById("news-url").href = article['url'];
             document.getElementById("news-url").target = "_blank";
-        })
+        });
     }
 
     // console.log(news['articles'].length);
