@@ -28,10 +28,19 @@ $( document ).ready(function() {
             }
         })
     });
+
+    $("#toggle").click(function() {
+        let newsDiv = document.getElementById('news');
+        if (newsDiv.style.display == 'none') {
+            newsDiv.style.display = 'block';
+        } else {
+            newsDiv.style.display = 'none';
+        }
+    })
 });
 
 function loadNews(news) {
-    newsList = document.getElementsByTagName("ul")[0];
+    newsList = document.getElementById('news-list');
     newsList.innerHTML = "";
 
     for(let article of news['articles']) {
@@ -52,8 +61,8 @@ function loadNews(news) {
         });
     }
     
-    $('li').click(function() {
-        $('li').removeClass('active');
+    $('#news-list > li').click(function() {
+        $('#news-list > li').removeClass('active');
         $(this).addClass('active');
     });
 }
@@ -84,4 +93,14 @@ function getDate(date) {
     }
     dateString += `${month}, ${year}`;
     return dateString;
+}
+
+function toggleToNews() {
+    document.getElementById('statistics').style.display = 'none';
+    document.getElementById('news').style.display = 'block';
+}
+
+function toggleToStatistics() {
+    document.getElementById('news').style.display = 'none';
+    document.getElementById('statistics').style.display = 'block';
 }

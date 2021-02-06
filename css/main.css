@@ -3,11 +3,6 @@ body {
     max-width: 100%;
 }
 
-#heading {
-    text-align: center;
-    color: white;
-}
-
 #news-container {
     border: 1px solid grey;
     border-radius: 10px;
@@ -22,6 +17,9 @@ body {
     background-color: #6c757d;
 }
 
+#statistics {
+    display: none;
+}
 /* .active {
     border-color: black;
     background-color: #6c757d;
