@@ -17,7 +17,7 @@ $( document ).ready(function() {
         countryDropdown.appendChild(option);
     }
 
-    $("button").click(function() {
+    $("#filter-button").click(function() {
         const countryId = countryToCode[document.getElementById('country').value];
         const url = apiEndpoint + '&country=' + countryId + '&apiKey=' + apiKey;
         $.ajax({
@@ -36,7 +36,17 @@ $( document ).ready(function() {
         } else {
             newsDiv.style.display = 'none';
         }
-    })
+    });
+
+    $("#statistics-button").click(function() {
+        $.ajax({
+            url: 'https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=AH5IY7BQSD2CYNTWULEU2GLAFEKEO',
+            method: 'GET',
+            success: function(response) {
+                parseXml(response);
+            }                                    
+        })
+    });
 });
 
 function loadNews(news) {
@@ -103,4 +113,22 @@ function toggleToNews() {
 function toggleToStatistics() {
     document.getElementById('news').style.display = 'none';
     document.getElementById('statistics').style.display = 'block';
+}
+
+function parseXml(xml) {
+    let parser = new DOMParser();
+    let xmlDocument = parser.parseFromString(xml, "text/xml");
+    let data = xmlDocument.getElementsByTagName("data");
+    let listData = [];
+
+    for(let i = 0;i < data.length;i++) {
+        // console.log(data[i].children);
+        let row = {};
+        for(let j = 0;j < data[i].children.length;j++) {
+            row[data[i].children[j].localName] = data[i].children[j].textContent;
+        }
+        listData.push(row);
+    }
+
+    console.log(listData);
 }
