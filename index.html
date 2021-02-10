@@ -10,49 +10,41 @@
     <title>Cov-IP</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
-            <h3>Covid-19 Information Portal</h3>
-        </a>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a href="#" onclick="toggleToNews()" class="nav-link">News</a>
-            </li>
-            <li class="nav-item active">
-                <a href="#" onclick="toggleToStatistics()" class="nav-link">Statistics</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="p-2 bg-primary">
+        <h2 id="heading">Cov-IP: Covid-19 Information Portal</h2>
+    </div>
 
-    <div id="news">
-        <div class="p-2">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                      <select class="form-control" name="country" id="country"></select>
-                                    </div>
-                                    <div class="col-md-2" id="filter-button-div">
-                                        <button id="filter-button" class="btn btn-outline-primary">Filter</button>
-                                    </div>
+    <div class="p-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <select class="form-control" name="country" id="country"></select>
+                                </div>
+                                <div class="col-md-2" id="filter-button-div">
+                                    <button id="filter-button" class="btn btn-outline-primary">Filter</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-10">
-                            <ul class="list-group" id="news-list">
-                            </ul>
-                        </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-10">
+                        <ul class="list-group" id="news-list">
+                        </ul>
                     </div>
                 </div>
-    
-                <div class="col-md-6">
-                    <div class="card m-2 p-2">
+            </div>
+            
+            <div id="content" class="col-md-6">
+                <div class="m-2 p-2">
+                    <p>Chart</p>
+
+                    <div class="card">
                         <div class="card-body">
                             <h4 class="news-heading" id="news-heading">News Heading</h4>
                             <br>
@@ -65,11 +57,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="statistics">
-        <p>Statistics</p>
-        <button id="statistics-button" class="btn btn-primary">Generate Stats</button>
     </div>
 
     <script src="./js/main.js"></script>

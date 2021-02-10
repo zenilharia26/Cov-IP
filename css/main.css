@@ -3,6 +3,11 @@ body {
     max-width: 100%;
 }
 
+#heading {
+    color: white;
+    text-align: center;
+}
+
 #news-container {
     border: 1px solid grey;
     border-radius: 10px;
@@ -17,7 +22,7 @@ body {
     background-color: #6c757d;
 }
 
-#statistics {
+#statistics, #content {
     display: none;
 }
 /* .active {
