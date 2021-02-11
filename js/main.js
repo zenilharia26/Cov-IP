@@ -3,10 +3,12 @@ const countryToCode = {
 }
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const attributes = ['totalcases', 'totaldeaths', 'totalrecovered'];
+let statistics = {};
 
 $( document ).ready(function() {
     const proxy = 'http://localhost:8080/';
-    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&language=en&source=the-hindu`;
+    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&language=en`;
     //const apiKey = '7fcff72941a749f596ca167c566fd14e'; //Arghyadeep
     const apiKey = '148162a1b18c4fb092bbf0fe2a2d2885'; //Zenil
     let countryDropdown = document.getElementById('country');
@@ -16,9 +18,19 @@ $( document ).ready(function() {
         option.innerText = country;
         countryDropdown.appendChild(option);
     }
+    
+    $.ajax({
+        url: 'https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=AH5IY7BQSD2CYNTWULEU2GLAFEKEO',
+        method: 'GET',
+        success: function(response) {
+            parseXml(response);
+            document.getElementById('content').style.display = 'block';
+        }
+    });
 
     $("#filter-button").click(function() {
-        const countryId = countryToCode[document.getElementById('country').value];
+        const country = document.getElementById('country').value
+        const countryId = countryToCode[country];
         const url = apiEndpoint + '&country=' + countryId + '&apiKey=' + apiKey;
         $.ajax({
             url: url,
@@ -28,14 +40,7 @@ $( document ).ready(function() {
             }
         })
 
-        $.ajax({
-            url: 'https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=AH5IY7BQSD2CYNTWULEU2GLAFEKEO',
-            method: 'GET',
-            success: function(response) {
-                parseXml(response);
-                document.getElementById('content').style.display = 'block';
-            }
-        })
+        plotStatistics(country);
     });
 });
 
@@ -99,16 +104,48 @@ function parseXml(xml) {
     let parser = new DOMParser();
     let xmlDocument = parser.parseFromString(xml, "text/xml");
     let data = xmlDocument.getElementsByTagName("data");
-    let listData = [];
 
-    let countries = Object.keys(countryToCode);
     for(let i = 0;i < data.length;i++) {
-        // console.log(data[i].children);
         let row = {};
         for(let j = 0;j < data[i].children.length;j++) {
             row[data[i].children[j].localName] = data[i].children[j].textContent;
         }
-        listData.push(row);
+
+        let country = row['country'];
+        statistics[country] = [];
+
+        for(let attribute of attributes) {
+            statistics[country].push(+row[attribute]);
+        }
     }
-    // console.log(listData);
+
+    console.log(statistics);
+}
+
+function plotStatistics(country) {
+    let context = document.getElementById('statistics-chart').getContext('2d');
+
+    var chart = new Chart(
+        context, 
+        {
+            type: 'doughnut',
+            data: {
+                labels: attributes,
+                datasets: [{
+                    data: statistics[country],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        }
+    )
 }
