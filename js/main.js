@@ -4,14 +4,17 @@ const countryToCode = {
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const attributes = ['totalcases', 'totaldeaths', 'totalrecovered'];
-const labels = ['Total Cases', 'Total Deaths', 'Total Recovered'];
+const labels = ['\u2623 Total Cases', '\u2620 Total Deaths', '\u271A Total Recovered'];
 let statistics = {};
 
 let chart = null;
 
+let statisticsDiv = document.getElementById('statistics-div');
+let newsDiv = document.getElementById('news-div');
+
 $( document ).ready(function() {
     const proxy = 'http://localhost:8080/';
-    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&language=en`;
+    const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&category=health&language=en`;
     //const apiKey = '7fcff72941a749f596ca167c566fd14e'; //Arghyadeep
     const apiKey = '148162a1b18c4fb092bbf0fe2a2d2885'; //Zenil
     let countryDropdown = document.getElementById('country');
@@ -21,7 +24,10 @@ $( document ).ready(function() {
         option.innerText = country;
         countryDropdown.appendChild(option);
     }
-    
+
+    statisticsDiv.style.display = 'none';
+    newsDiv.style.display = 'none';
+
     $.ajax({
         url: 'https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=AH5IY7BQSD2CYNTWULEU2GLAFEKEO',
         method: 'GET',
@@ -42,6 +48,9 @@ $( document ).ready(function() {
                 loadNews(response);
             }
         })
+
+        statisticsDiv.style.display = 'block';
+        newsDiv.style.display = 'none';
 
         plotStatistics(country);
     });
@@ -66,6 +75,7 @@ function loadNews(news) {
             document.getElementById("news-url").innerHTML = "Read More";
             document.getElementById("news-url").href = article['url'];
             document.getElementById("news-url").target = "_blank";
+            newsDiv.style.display = 'block';
         });
     }
     
@@ -115,6 +125,19 @@ function parseXml(xml) {
         }
 
         let country = row['country'];
+        switch(country) {
+            case 'USA':
+                country = 'United States';
+                break;
+
+            case 'UK':
+                country = 'United Kingdom';
+                break;
+            
+            default:
+                break;
+        }
+
         statistics[country] = [];
 
         for(let attribute of attributes) {
@@ -137,6 +160,7 @@ function plotStatistics(country) {
         context, 
         {
             type: 'doughnut',
+            fontSize: 20.0,
             data: {
                 labels: labels,
                 datasets: [{
@@ -144,6 +168,14 @@ function plotStatistics(country) {
                     backgroundColor: ['#fcba03', '#fc0303', '#07e000'],
                     borderWidth: 1
                 }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: 15.0,
+                    }
+                }
             }
         }
     )
