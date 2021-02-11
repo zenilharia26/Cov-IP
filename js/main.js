@@ -174,6 +174,7 @@ function plotStatistics(country) {
                     display: true,
                     labels: {
                         fontSize: 15.0,
+
                     }
                 }
             }
