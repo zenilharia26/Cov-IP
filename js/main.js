@@ -4,7 +4,10 @@ const countryToCode = {
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const attributes = ['totalcases', 'totaldeaths', 'totalrecovered'];
+const labels = ['Total Cases', 'Total Deaths', 'Total Recovered'];
 let statistics = {};
+
+let chart = null;
 
 $( document ).ready(function() {
     const proxy = 'http://localhost:8080/';
@@ -123,26 +126,22 @@ function parseXml(xml) {
 }
 
 function plotStatistics(country) {
+
     let context = document.getElementById('statistics-chart').getContext('2d');
 
-    var chart = new Chart(
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(
         context, 
         {
             type: 'doughnut',
             data: {
-                labels: attributes,
+                labels: labels,
                 datasets: [{
                     data: statistics[country],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
+                    backgroundColor: ['#fcba03', '#fc0303', '#07e000'],
                     borderWidth: 1
                 }]
             }
