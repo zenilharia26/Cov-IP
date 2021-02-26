@@ -159,6 +159,7 @@ function plotStatistics(country) {
         context, 
         {
             type: 'doughnut',
+            fontSize: 20.0,
             data: {
                 labels: labels,
                 datasets: [{
@@ -171,7 +172,8 @@ function plotStatistics(country) {
                 legend: {
                     display: true,
                     labels: {
-                        fontSize: 20.0
+                        fontSize: 15.0,
+
                     }
                 }
             }
