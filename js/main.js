@@ -15,8 +15,7 @@ let newsDiv = document.getElementById('news-div');
 $( document ).ready(function() {
     const proxy = 'http://localhost:8080/';
     const apiEndpoint = `${proxy}https://newsapi.org/v2/top-headlines?q=covid&language=en`;
-    //const apiKey = '7fcff72941a749f596ca167c566fd14e'; //Arghyadeep
-    const apiKey = '148162a1b18c4fb092bbf0fe2a2d2885'; //Zenil
+    const apiKey = config.API_KEY;
     let countryDropdown = document.getElementById('country');
 
     for(let country in countryToCode) {
@@ -29,7 +28,7 @@ $( document ).ready(function() {
     newsDiv.style.display = 'none';
 
     $.ajax({
-        url: 'https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=AH5IY7BQSD2CYNTWULEU2GLAFEKEO',
+        url: `https://raw.githubusercontent.com/zenilharia26/Cov-IP/main/covid_data.xml?token=${config.XML_TOKEN}`,
         method: 'GET',
         success: function(response) {
             parseXml(response);
